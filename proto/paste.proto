@@ -1,0 +1,25 @@
+// proto/paste.proto
+syntax = "proto3";
+option go_package = "gopaste/proto;paste"; 
+package paste;
+
+service PasteService {
+  rpc CreatePaste(CreatePasteRequest) returns (PasteResponse);
+  rpc GetPaste(GetPasteRequest) returns (PasteResponse);
+}
+
+message CreatePasteRequest {
+  string content = 1;
+  int32 expire_hours = 2;
+}
+
+message GetPasteRequest {
+  string id = 1;
+}
+
+message PasteResponse {
+  string id = 1;
+  string content = 2;
+  int64 created_at = 3;
+  int64 expires_at = 4;
+}
