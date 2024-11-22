@@ -1,6 +1,6 @@
 // proto/paste.proto
 syntax = "proto3";
-option go_package = "gopaste/proto;paste"; 
+option go_package = "gopaste/proto;"; 
 package paste;
 
 service PasteService {

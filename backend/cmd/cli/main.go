@@ -3,8 +3,8 @@ package main
 
 import (
 	"flag"
+	pb "gopasteb/proto"
 	"log"
-	pb "pastebin/proto"
 
 	"google.golang.org/grpc"
 )
