@@ -4,7 +4,7 @@
 # 创建paste
 echo "Testing CREATE paste..."
 CREATE_RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" \
-    -d '{"content":"Test content","expire_hours":24}' \
+    -d '{"content":"Hi there, how are you?","expire_hours":24}' \
     http://localhost:8080/api/paste)
 PASTE_ID=$(echo $CREATE_RESPONSE | jq -r '.id')
 echo "Created paste ID: $PASTE_ID"
