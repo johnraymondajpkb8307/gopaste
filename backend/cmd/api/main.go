@@ -3,7 +3,6 @@ package main
 
 import (
 	"gopaste/backend/api"
-	pb "gopaste/proto"
 	"log"
 
 	"google.golang.org/grpc"
@@ -17,11 +16,8 @@ func main() {
 	}
 	defer conn.Close()
 
-	// 创建gRPC客户端
-	grpcClient := pb.NewPasteServiceClient(conn)
-
 	// 设置路由
-	r := api.SetupRouter(grpcClient)
+	r := api.SetupRouter(conn)
 
 	// 启动服务器
 	r.Run(":8080")

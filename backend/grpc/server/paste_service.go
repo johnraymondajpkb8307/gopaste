@@ -10,6 +10,7 @@ import (
 
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
@@ -18,17 +19,20 @@ type PasteServer struct {
 	store *storage.SQLiteStore
 }
 
-func NewPasteServer() *PasteServer {
-	store, err := storage.NewSQLiteStore("./pastes.db")
-	if err != nil {
-		return nil
-	}
+func NewPasteServer(store *storage.SQLiteStore) *PasteServer {
 	return &PasteServer{store: store}
 }
 
 func (s *PasteServer) CreatePaste(ctx context.Context, req *pb.CreatePasteRequest) (*pb.PasteResponse, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return nil, status.Error(codes.Unauthenticated, "metadata not found")
+	}
+	userID := md["user_id"][0]
+
 	paste := &models.Paste{
 		ID:        uuid.New().String(),
+		UserID:    userID,
 		Content:   req.Content,
 		CreatedAt: time.Now().Unix(),
 		ExpiresAt: time.Now().Add(time.Duration(req.ExpireHours) * time.Hour).Unix(),
